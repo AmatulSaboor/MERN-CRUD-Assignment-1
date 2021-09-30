@@ -36,5 +36,20 @@ app.post('/add', (req, res) =>{
 });
 
 // ==================================== delete ======================================
+app.get('/delete/:userId', (req, res) =>{
+    fs.readFile(path.join(__dirname, 'data/user_info.json'), (err, data) =>{
+        if (err) throw err;
+        let userData = JSON.parse(data.toString());
+        const index = userData.findIndex(x => {
+            return x.id == req.params.userId;
+        });
+        userData.splice(index, 1);
+        fs.writeFile(path.join(__dirname, 'data/user_info.json'), JSON.stringify(userData, null, 4), err =>
+        {
+            if(err) throw err;
+        });
+    });
+    res.redirect('/');
+});
 
 app.listen(port);
