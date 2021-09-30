@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const fs = require("fs");
-const url = require("url");
 const path = require("path");
 const port = 3000;
 
@@ -10,9 +9,8 @@ app.use(express.static('public'));
 app.set('view engine','ejs');
 
 
-// =================================== index page ==================================
+// =================================== index page (read) ==================================
 app.get('/', (req, res) => {
-    console.log("hi welcome");
     fs.readFile(path.join(__dirname, 'data/user_info.json'), (err, data)=>
     {
         const userData = JSON.parse(data.toString());
@@ -21,11 +19,11 @@ app.get('/', (req, res) => {
     });
 });
 
-// ==================================== add =========================================
+// ==================================== create =========================================
 app.post('/add', (req, res) =>{
     fs.readFile(path.join(__dirname, 'data/user_info.json'), (err, data) =>{
         if (err) throw err;
-        let userData = JSON.parse(data.toString());
+        const userData = JSON.parse(data.toString());
         userData.push(req.body);
         fs.writeFile(path.join(__dirname, 'data/user_info.json'), JSON.stringify(userData, null, 4), err =>
         {
@@ -39,11 +37,24 @@ app.post('/add', (req, res) =>{
 app.get('/delete/:userId', (req, res) =>{
     fs.readFile(path.join(__dirname, 'data/user_info.json'), (err, data) =>{
         if (err) throw err;
-        let userData = JSON.parse(data.toString());
-        const index = userData.findIndex(x => {
-            return x.id == req.params.userId;
+        console.log(req.params.userId);
+        const userData = JSON.parse(data.toString());
+        userData.splice(userData.findIndex(x => x.id == req.params.userId), 1);
+        fs.writeFile(path.join(__dirname, 'data/user_info.json'), JSON.stringify(userData, null, 4), err =>
+        {
+            if(err) throw err;
         });
-        userData.splice(index, 1);
+    });
+    res.redirect('/');
+});
+
+// ==================================== update ======================================
+app.post('/edit', (req, res) =>{
+    console.log(req.body);
+    fs.readFile(path.join(__dirname, 'data/user_info.json'), (err, data) =>{
+        if (err) throw err;
+        const userData = JSON.parse(data.toString());
+        userData.splice(userData.findIndex(x => x.id == req.body.id), 1, req.body);
         fs.writeFile(path.join(__dirname, 'data/user_info.json'), JSON.stringify(userData, null, 4), err =>
         {
             if(err) throw err;
