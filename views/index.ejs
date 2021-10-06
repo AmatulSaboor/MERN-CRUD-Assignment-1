@@ -53,7 +53,7 @@ if(!locals.error){
                                     <td><%= user.address %></td>
                                     <td><%= user.phone %></td>
                                     <td>
-                                        <a onclick = "openModalEditUser({'id' : '5','name' : 'Hina', 'email' : 'hina@gmail.com','address' : 'Lahore, Pakistan','phone' : '0314-56356773'})" href="#editUserModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <a onclick = "openModalEditUser(user)" href="#editUserModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                         <a href="http://localhost:3000/delete/<%=user.id%>" class="delete"><i class="material-icons" title="Delete">&#xE872;</i></a>
                                     </td>
                                 </tr>
