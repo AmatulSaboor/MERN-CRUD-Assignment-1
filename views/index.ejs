@@ -47,13 +47,13 @@ if(!locals.error){
                         <tbody>
                             <% for(let user of locals.userData){ %>
                                 <tr>
-                                    <td><%= user.id %></td>
+                                    <td><%= user.id%></td>
                                     <td><%= user.name %></td>
                                     <td><%= user.email %></td>
                                     <td><%= user.address %></td>
                                     <td><%= user.phone %></td>
                                     <td>
-                                        <a onclick = "openModalEditUser(user)" href="#editUserModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <a onclick = "openModalEditUser(<%= JSON.stringify(user)%>)" href="#editUserModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                         <a href="http://localhost:3000/delete/<%=user.id%>" class="delete"><i class="material-icons" title="Delete">&#xE872;</i></a>
                                     </td>
                                 </tr>
@@ -113,8 +113,7 @@ if(!locals.error){
                         </div>
                         <div class="modal-body">	
                             <div class="form-group">
-                                <label>Id</label>
-                                <input id="idEdit" name="id" type="text" class="form-control" required readonly>
+                                <input id="idEdit" name="id" type="hidden" class="form-control" required readonly>
                             </div>				
                             <div class="form-group">
                                 <label>Name</label>
